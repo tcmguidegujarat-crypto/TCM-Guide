@@ -72,7 +72,7 @@
             font-size: 15px; font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer;
         }
         .menu-item i { font-size: 18px; width: 22px; text-align: center; color: #3f51b5; }
-        .menu-item i.fa-youtube { color: #ff0000; } /* YouTube icon color */
+        .menu-item i.fa-youtube { color: #ff0000; }
 
         /* Content Frame */
         .content-frame { width: 100%; height: calc(100vh - 56px); border: none; }
@@ -153,7 +153,7 @@
                 <i class="fa-solid fa-book"></i>
                 <span>Daybook</span>
             </a>
-            <a class="menu-item" onclick="loadUrl('https://www.youtube.com/@tcmguidegujarat')">
+            <a class="menu-item" onclick="openExternal('https://www.youtube.com/@tcmguidegujarat')">
                 <i class="fa-brands fa-youtube"></i>
                 <span>YouTube</span>
             </a>
@@ -210,6 +210,11 @@
             toggleMenu();
         }
 
+        function openExternal(url) {
+            window.open(url, '_blank');
+            toggleMenu();
+        }
+
         function reloadFrame() {
             const frame = document.getElementById('webFrame');
             frame.src = frame.src;
@@ -247,11 +252,9 @@
             const sidebar = document.getElementById('sidebar');
             const swipeDistance = touchEndX - touchStartX;
 
-            // Open menu: Finger swipe from left edge to right (> 60px)
             if (touchStartX < 40 && swipeDistance > 60 && !sidebar.classList.contains('active')) {
                 toggleMenu();
             }
-            // Close menu: Finger swipe from right to left (< -60px)
             else if (swipeDistance < -60 && sidebar.classList.contains('active')) {
                 toggleMenu();
             }
