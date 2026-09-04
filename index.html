@@ -42,14 +42,21 @@
             align-items: center;
         }
 
-        .splash-logo-img {
-            width: 90px;
-            height: 90px;
+        .splash-logo-card {
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
-            object-fit: contain;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .splash-logo-card svg {
+            width: 100px;
+            height: 100px;
         }
 
         .spinner {
@@ -163,13 +170,20 @@
             color: white;
         }
 
-        .sidebar-logo-img {
-            width: 55px;
-            height: 55px;
+        .sidebar-logo-card {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            object-fit: contain;
-            margin-bottom: 8px;
             background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-logo-card svg {
+            width: 52px;
+            height: 52px;
         }
 
         .sidebar-title {
@@ -221,7 +235,16 @@
 
     <!-- Splash Screen -->
     <div id="splash-screen">
-        <img src="assets/APP-LOGO.png" alt="TCM Guide Logo" class="splash-logo-img">
+        <div class="splash-logo-card">
+            <svg viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="95" fill="black" />
+                <path d="M 60 75 Q 100 50 140 75 Q 100 65 60 75 Z" fill="#cccccc" />
+                <path d="M 50 85 Q 100 60 150 85 Q 100 73 50 85 Z" fill="#ffffff" />
+                <text x="100" y="70" font-family="Arial" font-size="42" font-weight="bold" fill="white" text-anchor="middle">T</text>
+                <text x="100" y="125" font-family="Arial" font-size="20" font-weight="bold" fill="white" text-anchor="middle" letter-spacing="2">TCM GUIDE</text>
+                <text x="100" y="148" font-family="Arial" font-size="11" font-weight="bold" fill="#cccccc" text-anchor="middle" letter-spacing="1">THE FOUNDATION</text>
+            </svg>
+        </div>
         <div class="spinner"></div>
         <div class="splash-footer">TCM Guide Gujarat</div>
     </div>
@@ -249,22 +272,28 @@
     <!-- Slide Menu Drawer -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="assets/APP-LOGO.png" alt="TCM Guide Logo" class="sidebar-logo-img">
+            <div class="sidebar-logo-card">
+                <svg viewBox="0 0 200 200">
+                    <circle cx="100" cy="100" r="95" fill="black" />
+                    <path d="M 60 75 Q 100 50 140 75 Q 100 65 60 75 Z" fill="#cccccc" />
+                    <path d="M 50 85 Q 100 60 150 85 Q 100 73 50 85 Z" fill="#ffffff" />
+                    <text x="100" y="70" font-family="Arial" font-size="42" font-weight="bold" fill="white" text-anchor="middle">T</text>
+                    <text x="100" y="125" font-family="Arial" font-size="20" font-weight="bold" fill="white" text-anchor="middle" letter-spacing="2">TCM GUIDE</text>
+                    <text x="100" y="148" font-family="Arial" font-size="11" font-weight="bold" fill="#cccccc" text-anchor="middle" letter-spacing="1">THE FOUNDATION</text>
+                </svg>
+            </div>
             <div class="sidebar-title">TCM GUIDE</div>
             <div class="sidebar-subtitle">The Foundation</div>
         </div>
         <div class="sidebar-menu">
-            <!-- Home Link -->
             <a href="#" class="menu-item" onclick="loadUrl('https://tcmguidegujarat.wixsite.com/tcm-guide')">
                 <i class="fa-solid fa-house"></i>
                 <span>Home</span>
             </a>
-            <!-- Updated Utility Link -->
             <a href="#" class="menu-item" onclick="loadUrl('https://tcmguideapp.blogspot.com/p/utility.html')">
                 <i class="fa-solid fa-wrench"></i>
                 <span>Utility</span>
             </a>
-            <!-- Social Share Link -->
             <a href="#" class="menu-item" onclick="shareApp()">
                 <i class="fa-solid fa-share-nodes"></i>
                 <span>Share</span>
@@ -276,12 +305,10 @@
     <iframe id="webFrame" class="content-frame" src="https://tcmguidegujarat.wixsite.com/tcm-guide"></iframe>
 
     <script>
-        // Service Worker Registration
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
 
-        // Fast Splash Screen (1 Second Duration)
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
@@ -291,7 +318,6 @@
             }, 1000);
         });
 
-        // Toggle Sidebar Drawer
         function toggleMenu() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
@@ -304,7 +330,6 @@
             }
         }
 
-        // Load Page inside Webview Frame
         function loadUrl(url) {
             document.getElementById('webFrame').src = url;
             const sidebar = document.getElementById('sidebar');
@@ -313,13 +338,11 @@
             }
         }
 
-        // Reload Webview
         function reloadFrame() {
             const frame = document.getElementById('webFrame');
             frame.src = frame.src;
         }
 
-        // Native Social Media Share Sheet
         function shareApp() {
             const shareData = {
                 title: 'TCM Guide App',
