@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="gu">
 <head>
+    <!-- manifest connect karva mate -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3f51b5">
+
+<script>
+    // Service Worker Register karva mate
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+</script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TCM Guide Gujarat</title>
