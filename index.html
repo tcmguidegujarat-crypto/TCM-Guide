@@ -50,7 +50,7 @@
         .app-title-text .main { font-size: 16px; font-weight: bold; }
         .app-title-text .sub { font-size: 10px; opacity: 0.9; }
         .top-icons { display: flex; gap: 18px; font-size: 18px; }
-        .top-icons i { cursor: pointer; }
+        .top-icons i { cursor: pointer; padding: 5px; }
 
         /* Sidebar Drawer */
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 998; display: none; }
@@ -97,7 +97,7 @@
     </div>
 
     <!-- Top Action Bar -->
-    <div class="top-bar">
+    <div class="top-bar" id="topBar">
         <button class="menu-btn" onclick="toggleMenu()">
             <i class="fa-solid fa-bars"></i>
         </button>
@@ -207,12 +207,18 @@
 
         function loadUrl(url) {
             document.getElementById('webFrame').src = url;
-            toggleMenu();
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('active')) {
+                toggleMenu();
+            }
         }
 
         function openExternal(url) {
             window.open(url, '_blank');
-            toggleMenu();
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('active')) {
+                toggleMenu();
+            }
         }
 
         function reloadFrame() {
@@ -237,13 +243,21 @@
 
         /* Touch Swipe Gesture for Sidebar (Slide Left / Right) */
         let touchStartX = 0;
+        let touchStartY = 0;
         let touchEndX = 0;
 
         document.addEventListener('touchstart', (e) => {
+            // જો ટચ Top Bar પર થયો હોય તો Swipe gesture ગણવું નહીં
+            if (e.target.closest('#topBar')) {
+                touchStartX = -1; 
+                return;
+            }
             touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
         }, false);
 
         document.addEventListener('touchend', (e) => {
+            if (touchStartX === -1) return;
             touchEndX = e.changedTouches[0].screenX;
             handleSwipe();
         }, false);
@@ -252,10 +266,12 @@
             const sidebar = document.getElementById('sidebar');
             const swipeDistance = touchEndX - touchStartX;
 
-            if (touchStartX < 40 && swipeDistance > 60 && !sidebar.classList.contains('active')) {
+            // જો ડાબી ધાર પરથી જમણી બાજુ સ્વાઇપ કરવામાં આવે તો જ મેન્યુ ખૂલશે
+            if (touchStartX >= 0 && touchStartX < 30 && swipeDistance > 80 && !sidebar.classList.contains('active')) {
                 toggleMenu();
             }
-            else if (swipeDistance < -60 && sidebar.classList.contains('active')) {
+            // જો સાઇડબાર ખુલ્લું હોય અને ડાબી બાજુ સ્વાઇપ કરો તો બંધ થશે
+            else if (swipeDistance < -80 && sidebar.classList.contains('active')) {
                 toggleMenu();
             }
         }
