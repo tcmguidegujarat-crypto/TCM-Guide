@@ -1,21 +1,14 @@
 <!DOCTYPE html>
 <html lang="gu">
 <head>
-    <!-- manifest connect karva mate -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#3f51b5">
-
-<script>
-    // Service Worker Register karva mate
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
-    }
-</script>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TCM Guide Gujarat</title>
     
+    <!-- PWA & Theme -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3f51b5">
+
     <!-- Icons and Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -34,14 +27,14 @@
             background-color: #f4f4f4;
         }
 
-        /* --- 1. SPLASH SCREEN (Screenshot 2 UI) --- */
+        /* --- 1. SPLASH SCREEN --- */
         #splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #7ef1e8; /* Teal / Cyan background */
+            background-color: #7ef1e8;
             z-index: 10000;
             display: flex;
             flex-direction: column;
@@ -49,44 +42,23 @@
             align-items: center;
         }
 
-        .splash-card {
-            background-color: #000;
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            width: 170px;
+        .splash-logo-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 30px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            margin-bottom: 40px;
-        }
-
-        .splash-card img {
-            width: 70px;
-            height: auto;
-        }
-
-        .splash-card .title {
-            color: #fff;
-            font-weight: bold;
-            font-size: 16px;
-            margin-top: 10px;
-            letter-spacing: 1px;
-        }
-
-        .splash-card .subtitle {
-            color: #ccc;
-            font-size: 8px;
-            margin-top: 3px;
-            letter-spacing: 0.5px;
         }
 
         /* Circular Progress Spinner */
         .spinner {
-            width: 40px;
-            height: 40px;
-            border: 5px solid rgba(0, 150, 136, 0.2);
-            border-top: 5px solid #009688;
+            width: 38px;
+            height: 38px;
+            border: 4px solid rgba(0, 150, 136, 0.2);
+            border-top: 4px solid #009688;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin {
@@ -102,7 +74,7 @@
             font-size: 18px;
         }
 
-        /* --- 2. TOP ACTION BAR (Screenshot 1 UI) --- */
+        /* --- 2. TOP ACTION BAR --- */
         .top-bar {
             height: 56px;
             background: linear-gradient(to right, #5c6bc0, #3f51b5);
@@ -131,11 +103,6 @@
             flex-grow: 1;
         }
 
-        .header-logo {
-            width: 30px;
-            height: 30px;
-        }
-
         .app-title-text {
             display: flex;
             flex-direction: column;
@@ -153,11 +120,15 @@
 
         .top-icons {
             display: flex;
-            gap: 15px;
+            gap: 18px;
             font-size: 18px;
         }
 
-        /* --- 3. SLIDER MENU / DRAWER (Screenshot 3 UI) --- */
+        .top-icons i {
+            cursor: pointer;
+        }
+
+        /* --- 3. SLIDER MENU / DRAWER --- */
         .sidebar-overlay {
             position: fixed;
             top: 0;
@@ -175,7 +146,7 @@
             left: -280px;
             width: 280px;
             height: 100%;
-            background-color: #a28ee6; /* Light purple drawer background */
+            background-color: #a28ee6;
             z-index: 999;
             transition: left 0.3s ease;
             display: flex;
@@ -188,21 +159,15 @@
 
         .sidebar-header {
             background: linear-gradient(to bottom, #7b61ff, #a28ee6);
-            padding: 30px 20px 20px 20px;
+            padding: 25px 20px 20px 20px;
             color: white;
         }
 
-        .sidebar-logo-card {
-            background-color: #000;
-            border-radius: 12px;
-            padding: 10px;
-            width: 65px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .sidebar-logo-card img {
-            width: 40px;
+        .sidebar-logo-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-bottom: 10px;
         }
 
         .sidebar-title {
@@ -233,6 +198,7 @@
             font-size: 16px;
             font-weight: 500;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
         }
 
         .menu-item i {
@@ -253,11 +219,7 @@
 
     <!-- Splash Screen -->
     <div id="splash-screen">
-        <div class="splash-card">
-            <i class="fa-solid fa-anchor" style="color:white; font-size: 40px;"></i>
-            <div class="title">TCM GUIDE</div>
-            <div class="subtitle">THE FOUNDATION</div>
-        </div>
+        <img src="assets/APP-LOGO.png" alt="TCM Guide Logo" class="splash-logo-img">
         <div class="spinner"></div>
         <div class="splash-footer">TCM Guide Gujarat</div>
     </div>
@@ -274,8 +236,9 @@
             </div>
         </div>
         <div class="top-icons">
-            <i class="fa-solid fa-bell"></i>
-            <i class="fa-solid fa-rotate-right" onclick="reloadFrame()"></i>
+            <!-- Notification Bell Icon -> Open Announcements -->
+            <i class="fa-solid fa-bell" onclick="loadUrl('https://tcmguideapp.blogspot.com/p/announcements.html')" title="Announcements"></i>
+            <i class="fa-solid fa-rotate-right" onclick="reloadFrame()" title="Refresh"></i>
         </div>
     </div>
 
@@ -285,21 +248,22 @@
     <!-- Slide Menu Drawer -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <div class="sidebar-logo-card">
-                <i class="fa-solid fa-anchor" style="color:white; font-size: 30px;"></i>
-            </div>
+            <img src="assets/APP-LOGO.png" alt="TCM Guide Logo" class="sidebar-logo-img">
             <div class="sidebar-title">TCM GUIDE</div>
             <div class="sidebar-subtitle">The Foundation</div>
         </div>
         <div class="sidebar-menu">
+            <!-- Home Link -->
             <a href="#" class="menu-item" onclick="loadUrl('https://tcmguidegujarat.wixsite.com/tcm-guide')">
                 <i class="fa-solid fa-house"></i>
                 <span>Home</span>
             </a>
-            <a href="#" class="menu-item" onclick="loadUrl('https://tcmguidegujarat.wixsite.com/tcm-guide')">
+            <!-- Utility Link -->
+            <a href="#" class="menu-item" onclick="loadUrl('https://www.blogger.com/blog/page/edit/3140285931097682579/2790503025724635185')">
                 <i class="fa-solid fa-wrench"></i>
                 <span>Utility</span>
             </a>
+            <!-- Social Share Link -->
             <a href="#" class="menu-item" onclick="shareApp()">
                 <i class="fa-solid fa-share-nodes"></i>
                 <span>Share</span>
@@ -311,14 +275,19 @@
     <iframe id="webFrame" class="content-frame" src="https://tcmguidegujarat.wixsite.com/tcm-guide"></iframe>
 
     <script>
-        // Hide Splash Screen after 2.5 seconds
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+
+        // Fast Splash Screen (1 Second Duration)
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 splash.style.opacity = '0';
-                splash.style.transition = 'opacity 0.5s ease';
-                setTimeout(() => splash.style.display = 'none', 500);
-            }, 2500);
+                splash.style.transition = 'opacity 0.4s ease';
+                setTimeout(() => splash.style.display = 'none', 400);
+            }, 1000);
         });
 
         // Toggle Sidebar Drawer
@@ -334,10 +303,13 @@
             }
         }
 
-        // Change Website URL
+        // Load Page inside Webview Frame
         function loadUrl(url) {
             document.getElementById('webFrame').src = url;
-            toggleMenu();
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('active')) {
+                toggleMenu();
+            }
         }
 
         // Reload Webview
@@ -346,16 +318,21 @@
             frame.src = frame.src;
         }
 
-        // Native Share Action
+        // Native Social Media Share Sheet
         function shareApp() {
+            const shareData = {
+                title: 'TCM Guide App',
+                text: 'Check out TCM Guide App:',
+                url: 'https://tcmguideapp.blogspot.com/p/tcm-guide-app.html'
+            };
+
             if (navigator.share) {
-                navigator.share({
-                    title: 'TCM Guide Gujarat',
-                    url: window.location.href
-                });
+                navigator.share(shareData);
             } else {
-                alert('Share link: ' + window.location.href);
+                // Fallback copy/alert
+                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`, '_blank');
             }
+            toggleMenu();
         }
     </script>
 </body>
