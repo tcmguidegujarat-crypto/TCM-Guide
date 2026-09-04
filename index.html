@@ -72,6 +72,7 @@
             font-size: 15px; font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer;
         }
         .menu-item i { font-size: 18px; width: 22px; text-align: center; color: #3f51b5; }
+        .menu-item i.fa-youtube { color: #ff0000; } /* YouTube icon color */
 
         /* Content Frame */
         .content-frame { width: 100%; height: calc(100vh - 56px); border: none; }
@@ -152,7 +153,19 @@
                 <i class="fa-solid fa-book"></i>
                 <span>Daybook</span>
             </a>
-            <a class="menu-item" onclick="loadUrl('https://tcmguidegujarat-crypto.github.io/TCM-Guide/privacy.html')">
+            <a class="menu-item" onclick="loadUrl('https://www.youtube.com/@tcmguidegujarat')">
+                <i class="fa-brands fa-youtube"></i>
+                <span>YouTube</span>
+            </a>
+            <a class="menu-item" onclick="loadUrl('https://tcmguidegujarat.blogspot.com/2024/12/calandar.html')">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>Calendar</span>
+            </a>
+            <a class="menu-item" onclick="loadUrl('https://tcmguidegujarat.wixsite.com/tcm-guide/about')">
+                <i class="fa-solid fa-address-book"></i>
+                <span>Contact Us</span>
+            </a>
+            <a class="menu-item" onclick="loadUrl('privacy.html')">
                 <i class="fa-solid fa-user-shield"></i>
                 <span>Privacy Policy</span>
             </a>
@@ -215,6 +228,33 @@
                 window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`, '_blank');
             }
             toggleMenu();
+        }
+
+        /* Touch Swipe Gesture for Sidebar (Slide Left / Right) */
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+
+        function handleSwipe() {
+            const sidebar = document.getElementById('sidebar');
+            const swipeDistance = touchEndX - touchStartX;
+
+            // Open menu: Finger swipe from left edge to right (> 60px)
+            if (touchStartX < 40 && swipeDistance > 60 && !sidebar.classList.contains('active')) {
+                toggleMenu();
+            }
+            // Close menu: Finger swipe from right to left (< -60px)
+            else if (swipeDistance < -60 && sidebar.classList.contains('active')) {
+                toggleMenu();
+            }
         }
     </script>
 </body>
